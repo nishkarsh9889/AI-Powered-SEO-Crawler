@@ -10,11 +10,13 @@ import domainRouter from "./route/domain.route";
 import domainNodeInsightsRouter from "./route/domainInsights.route";
 import domainNodeRouter from "./route/domainNode.route";
 import domainPageRouter from "./route/domainPage.route";
+import { start } from "./controller/engine/workers/index"
 const appLogger = createLogger("APP");
 const dbLogger = createLogger("DATABASE");
 const app = express();
+const PORT = process.env.PORT || 3000
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: '*',
   credentials: true,
 }));
 app.use(express.json());
@@ -33,11 +35,13 @@ app.use("/domain", domainRouter);
 app.use('/domainPage', domainPageRouter);
 app.use('/domainNode', domainNodeRouter);
 app.use('/domainNodeInsights', domainNodeInsightsRouter)
+app.use('/admin/queues', bullBoardRouter);
 const startServer = async () => {
   try {
     await connectDB();
-    app.listen(env.PORT, () => {
-      appLogger.info(`Server started on port ${env.PORT}`);
+    await start();
+    app.listen(PORT, () => {
+      appLogger.info(`Server started on port ${PORT}`);
       console.log("server running successfully");
     });
   } catch (err) {
@@ -45,7 +49,7 @@ const startServer = async () => {
     process.exit(1);
   }
 };
-app.use('/admin/queues', bullBoardRouter);
+
 
 startServer();
 
@@ -55,6 +59,5 @@ process.on("unhandledRejection", (reason) => {
 
 process.on("uncaughtException", (err) => {
   appLogger.error("Uncaught Exception", err);
-  console.log("uncaught error happened")
   process.exit(1);
 });
