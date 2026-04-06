@@ -32,6 +32,7 @@ const GetYourPages = () => {
         uniqueDomains: 0,
         lastCrawled: "Never"
     });
+    const [copiedId, setCopiedId] = useState<string | null>(null);
 
     useEffect(() => {
         fetchPages();
@@ -95,9 +96,11 @@ const GetYourPages = () => {
         }
     };
 
-    const handleCopyUrl = (url: string, e: React.MouseEvent) => {
-        e.stopPropagation(); // Prevent navigation when clicking copy
+    const handleCopyUrl = (url: string, e: React.MouseEvent, pageId: string) => {
+        e.stopPropagation();
         navigator.clipboard.writeText(url);
+        setCopiedId(pageId);
+        setTimeout(() => setCopiedId(null), 2000);
     };
 
     const handleRefresh = () => {
@@ -270,11 +273,11 @@ const GetYourPages = () => {
                                 </div>
                                 <div className="page-actions">
                                     <button
-                                        className="icon-button copy"
-                                        onClick={(e) => handleCopyUrl(page.domainPageUrl, e)}
-                                        title="Copy URL"
+                                        className={`icon-button copy ${copiedId === page._id ? 'copied' : ''}`}
+                                        onClick={(e) => handleCopyUrl(page.domainPageUrl, e, page._id)}
+                                        title={copiedId === page._id ? "Copied!" : "Copy URL"}
                                     >
-                                        📋
+                                        {copiedId === page._id ? '✓' : '📋'}
                                     </button>
                                     <a
                                         href={page.domainPageUrl}
