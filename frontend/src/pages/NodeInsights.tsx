@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../config/axiosInstance";
-import "./nodeInsights.css";
+import "./NodeInsights.css";
 
 interface ApiResponse {
     status: string;
