@@ -50,7 +50,6 @@ const startServer = async () => {
   }
 };
 
-//start the server to listen
 startServer();
 
 process.on("unhandledRejection", (reason) => {
