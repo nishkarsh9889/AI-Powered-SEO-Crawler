@@ -34,7 +34,7 @@ model.forEach(models => {
 app.use("/domain", domainRouter);
 app.use('/domainPage', domainPageRouter);
 app.use('/domainNode', domainNodeRouter);
-// app.use('/domainNodeInsights', domainNodeInsightsRouter)
+app.use('/domainNodeInsights', domainNodeInsightsRouter)
 app.use('/admin/queues', bullBoardRouter);
 const startServer = async () => {
   try {
