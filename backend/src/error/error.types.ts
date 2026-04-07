@@ -10,6 +10,7 @@ export enum ErrorContext {
   EMAIL = "EMAIL",
   PAYMENTS = "PAYMENTS",
   NOTIFICATIONS = "NOTIFICATIONS",
+  HTTP = "HTTP"
 }
 export enum ErrorSeverity {
   LOW = "LOW",
